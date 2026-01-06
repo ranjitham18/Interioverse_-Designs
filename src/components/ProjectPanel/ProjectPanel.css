@@ -1,0 +1,41 @@
+.projects-card {
+  background: white;
+  border-radius: 4px;
+  padding: 5%;
+  height: auto;
+}
+.projects-section h3 {
+  font-size: 16px;
+  margin-bottom: 8%;
+  text-align: center;
+}
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.project-item {
+  background: #e9fafe;              
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+}
+.project-img {
+  width: 100%;
+  height: 70%;                     
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.project-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 2px;
+}
+
+.project-location {
+  font-size: 45%;
+  color: #6b7d85;
+}
+
