@@ -301,6 +301,27 @@ function Signup() {
         <input name="address" value={form.address} placeholder="Address" onChange={handleChange} />
         <input name="pincode" value={form.pincode} placeholder="Pincode" onChange={handleChange} />
         <input name="location" value={form.location} placeholder="Location" onChange={handleChange} />
+        <input
+  name="instagram"
+  value={form.instagram}
+  placeholder="Instagram (optional)"
+  onChange={handleChange}
+/>
+
+<input
+  name="linkedin"
+  value={form.linkedin}
+  placeholder="LinkedIn (optional)"
+  onChange={handleChange}
+/>
+
+<input
+  name="referral"
+  value={form.referral}
+  placeholder="Referral (optional)"
+  onChange={handleChange}
+/>
+
 
         <input name="specialization" value={form.specialization} placeholder="Specialization" onChange={handleChange} />
         <input name="experience" value={form.experience} placeholder="Experience" onChange={handleChange} />
