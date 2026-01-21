@@ -8,9 +8,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import api from "../../services/api";
-
+import { logout } from "../../redux/authSlice";
 function Signup() {
   const navigate = useNavigate();
+    const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     name: "",
@@ -104,8 +105,10 @@ function Signup() {
         experience: String(form.experience),
         projectVolume: String(form.projectVolume)
       });
+       dispatch(logout());
+      navigate("/login", { replace: true });
 
-      navigate("/");
+      // navigate("/");
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");
     }
