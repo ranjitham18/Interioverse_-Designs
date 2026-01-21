@@ -80,15 +80,29 @@ function Login() {
 
     try {
       const res = await api.post("/api/auth/login", form);
-      dispatch(setAuth({ role: res.data.role }));
 
-      if (res.data.role === "admin") {
-        navigate("/users");
-      } else {
-        navigate("/signup");
+      console.log("LOGIN RESPONSE:", res.data);
+
+      const role = res?.data?.role;
+      if (!role) {
+        throw new Error("Role missing in login response");
       }
-    } catch {
-      setLoginError("Invalid role or password");
+
+      dispatch(setAuth({ role }));
+
+      if (role === "admin") {
+        navigate("/users", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
+
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      setLoginError(
+        err.response?.data?.message ||
+        err.message ||
+        "Login failed"
+      );
     }
   };
 
