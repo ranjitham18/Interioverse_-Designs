@@ -182,7 +182,8 @@ function Users() {
         <div className="header-left">
           {/* <img src="/logo.jpg" alt="logo" className="header-logo" /> */}
           {/* <img src={avatar} alt="user" /> */}
-          <img src={logo} alt="logo" className="auth-logo" />
+          <img src={logo} alt="logo" className="header-logo" />
+
           <h4 className="header-title">Users</h4>
         </div>
 
@@ -192,7 +193,7 @@ function Users() {
           </button>
            
 
-          <img src={avatar} alt="user" />
+          <img src={avatar} alt="user" className="header-avatar" />
         </div>
       </div>
 
