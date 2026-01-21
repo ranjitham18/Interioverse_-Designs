@@ -92,6 +92,22 @@ function App() {
   const dispatch = useDispatch();
   const { checked } = useSelector((state) => state.auth);
 console.log("AUTH CHECKED =", checked);
+   
+useEffect(() => {
+  console.log("App mounted, calling /me");
+  api.get("/api/auth/me")
+    .then((res) => {
+      console.log("ME RESPONSE", res.data);
+      dispatch(setAuth({ role: res.data.role }));
+    })
+    .catch((err) => {
+      console.error("ME ERROR", err);
+    })
+    .finally(() => {
+      dispatch(authChecked());
+    });
+}, [dispatch]);
+
 
   useEffect(() => {
     const checkAuth = async () => {
