@@ -26,7 +26,7 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   // INPUT CHANGE
   const handleChange = (e) => {
