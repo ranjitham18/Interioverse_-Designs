@@ -91,10 +91,12 @@ function Login() {
       dispatch(setAuth({ role }));
 
       if (role === "admin") {
-        navigate("/users", { replace: true });
-      } else {
-        navigate("/dashboard", { replace: true });
-      }
+  navigate("/users", { replace: true });
+} else if (role === "user") {
+  navigate("/signup", { replace: true });
+} else {
+  throw new Error("Unknown role");
+}
 
     } catch (err) {
       console.error("LOGIN ERROR:", err);
