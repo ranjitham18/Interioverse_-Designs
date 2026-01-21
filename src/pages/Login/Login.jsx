@@ -115,6 +115,7 @@ function Login() {
 }
 
 export default Login;*/
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -143,19 +144,13 @@ function Login() {
     const errs = {};
     if (!form.role) errs.role = "Role is required";
     if (!form.password) errs.password = "Password is required";
-
     setErrors(errs);
     if (Object.keys(errs).length) return;
 
     try {
       const res = await api.post("/api/auth/login", form);
       dispatch(setAuth({ role: res.data.role }));
-
-      if (res.data.role === "admin") {
-        navigate("/users");
-      } else {
-        navigate("/signup");
-      }
+      navigate(res.data.role === "admin" ? "/users" : "/signup");
     } catch {
       setLoginError("Invalid role or password");
     }
