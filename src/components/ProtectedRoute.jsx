@@ -1,7 +1,7 @@
 // blocks pages if user is not logged in or wrong role 
 //  pevents manual URL access
 
-
+/*
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -30,6 +30,31 @@ function ProtectedRoute({ children, allowedRole }) {
 }
 
 export default ProtectedRoute;
+*/
 
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+function ProtectedRoute({ children, allowedRole }) {
+  const role = useSelector((state) => state.auth.role);
+
+  // Not logged in
+  if (!role) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Logged in but wrong role → redirect to own page
+  if (allowedRole && role !== allowedRole) {
+    if (role === "admin") {
+      return <Navigate to="/users" replace />;
+    }
+    if (role === "user") {
+      return <Navigate to="/signup" replace />;
+    }
+  }
+
+  return children;
+}
+
+export default ProtectedRoute;
 

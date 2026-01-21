@@ -2,7 +2,7 @@
 // stores isLoggedIn and role
 // used by protectedRoute
 
-
+/*
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
@@ -30,4 +30,31 @@ const authSlice = createSlice({
 });
 
 export const { setAuth, logout, authChecked } = authSlice.actions;
+export default authSlice.reducer;*/
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  role: null,
+  checked: false
+};
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setAuth: (state, action) => {
+      state.role = action.payload.role;
+    },
+    logout: (state) => {
+      state.role = null;
+    },
+    authChecked: (state) => {
+      state.checked = true;
+    }
+  }
+});
+
+export const { setAuth, logout, authChecked } = authSlice.actions;
 export default authSlice.reducer;
+
+
