@@ -15,6 +15,8 @@ import ProjectPanel from "../../components/ProjectPanel/ProjectPanel";
 
 import api from "../../services/api";
 import "./Users.css";
+import logo from "../../assets/logo.jpg";
+
 
 /*  GENERATE DISPLAY PROFILE ID (UI ONLY) */
 /*const generateProfileId = (name, role, mongoId) => {
@@ -178,9 +180,9 @@ function Users() {
       {/* HEADER */}
       <div className="users-header">
         <div className="header-left">
-          <img src="/logo.jpg" alt="logo" className="header-logo" />
+          {/* <img src="/logo.jpg" alt="logo" className="header-logo" /> */}
           {/* <img src={avatar} alt="user" /> */}
-          {/* <img src={logo} alt="logo" className="auth-logo" /> */}
+          <img src={logo} alt="logo" className="auth-logo" />
           <h4 className="header-title">Users</h4>
         </div>
 
