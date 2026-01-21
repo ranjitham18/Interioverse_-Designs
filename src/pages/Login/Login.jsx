@@ -1,7 +1,7 @@
 // Login screen UI+ login
 // takes role and password
 // Redirects based on role
-
+/*
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -75,7 +75,7 @@ function Login() {
 
   return (
     <AuthLayout title="Log in to account">
-     {/* <AuthLayout title="LOGIN TEST — PLEASE SHOW THIS"> */}
+    
 
 
       
@@ -114,4 +114,82 @@ function Login() {
   );
 }
 
+export default Login;*/
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { setAuth } from "../../redux/authSlice";
+import AuthLayout from "../../components/AuthLayout/AuthLayout";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import api from "../../services/api";
+
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({ role: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({});
+    setLoginError("");
+  };
+
+  const handleLogin = async () => {
+    const errs = {};
+    if (!form.role) errs.role = "Role is required";
+    if (!form.password) errs.password = "Password is required";
+
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+
+    try {
+      const res = await api.post("/api/auth/login", form);
+      dispatch(setAuth({ role: res.data.role }));
+
+      if (res.data.role === "admin") {
+        navigate("/users");
+      } else {
+        navigate("/signup");
+      }
+    } catch {
+      setLoginError("Invalid role or password");
+    }
+  };
+
+  return (
+    <AuthLayout title="Log in to account">
+      <p>Role</p>
+      <select name="role" value={form.role} onChange={handleChange}>
+        <option value="">Select Role</option>
+        <option value="admin">admin</option>
+        <option value="user">user</option>
+      </select>
+      {errors.role && <p>{errors.role}</p>}
+
+      <p>Password</p>
+      <div>
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <span onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      </div>
+      {errors.password && <p>{errors.password}</p>}
+      {loginError && <p>{loginError}</p>}
+
+      <button onClick={handleLogin}>Login</button>
+    </AuthLayout>
+  );
+}
+
 export default Login;
+
