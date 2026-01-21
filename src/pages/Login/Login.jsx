@@ -1,108 +1,117 @@
+// Login screen UI+ login
+// takes role and password
+// Redirects based on role
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
-import "./Login.css";
+import { setAuth } from "../../redux/authSlice";
+
+import AuthLayout from "../../components/AuthLayout/AuthLayout";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import api from "../../services/api";
+
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [userError, setUserError] = useState(false);
-  const [passError, setPassError] = useState(false);
-  const [loginError, setLoginError] = useState(false);
-
-  const [showPassword, setShowPassword] = useState(false);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleVerify = () => {
-    setUserError(false);
-    setPassError(false);
-    setLoginError(false);
 
-    if (!username) {
-      setUserError(true);
-      return;
-    }
+  const [form, setForm] = useState({
+    role: "",
+    password: ""
+  });
 
-    if (!password) {
-      setPassError(true);
-      return;
-    }
+  const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    if (username === "admin" && password === "1234") {
-      dispatch(login());
-    } else {
-      setLoginError(true);
-    }
+  // INPUT CHANGE
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+    setLoginError("");
   };
 
+  // LOGIN
+  const handleLogin = async () => {
+  const newErrors = {};
+  if (!form.role) newErrors.role = "Role is required";
+  if (!form.password) newErrors.password = "Password is required";
+
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) return;
+
+  try {
+    const res = await api.post("/api/auth/login", {
+      role: form.role,
+      password: form.password
+    });
+
+    console.log("LOGIN RESPONSE 👉", res.data);
+
+    const { role } = res.data;
+    dispatch(setAuth({ role }));
+
+    if (role === "admin") {
+      navigate("/users", { replace: true });
+    } else {
+      navigate("/signup", { replace: true });
+    }
+
+  } catch (err) {
+      console.error("LOGIN FAILED:", err.response?.data || err.message);
+      setLoginError(
+        err.response?.data?.message || "Login failed. Check credentials."
+      );
+    } finally {
+      setLoading(false);
+    }
+};
+
+
+
+
   return (
-    <div className="login-page">
-      <div className="header">
-        <img src="/logo.jpg" alt="logo" className="app-logo" />
+    <AuthLayout title="Log in to account">
+     {/* <AuthLayout title="LOGIN TEST — PLEASE SHOW THIS"> */}
+
+
+      
+      <p className="input-label">Role</p>
+      <select name="role" value={form.role} onChange={handleChange}>
+        <option value="">Select Role</option>
+        <option value="admin">admin</option>
+        <option value="user">user</option>
+      </select>
+      {errors.role && <p className="error">{errors.role}</p>}
+
+      
+      <p className="input-label">Password</p>
+      <div className="password-wrapper">
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Enter password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <span
+          className="password-icon"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
       </div>
-      <div className="login-body">
-        
-        <div className="image-card">
-          <div className="login-card">
+      {errors.password && <p className="error">{errors.password}</p>}
 
-            <h3>Log in to account</h3>
+      {loginError && <p className="error">{loginError}</p>}
 
-            
-            <p>User Name</p>
-            <input
-              className="login-input"
-              placeholder="User Name"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                setUserError(false);
-              }}
-            />
-            {userError && <p className="error">Username is required*</p>}
-
-           
-            <p>Password</p>
-            <div className="password-wrapper">
-              <input
-                className="login-input"
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setPassError(false);
-                }}
-              />
-              {userError && <p className="error">
-                Password is required*</p>}
-
-              <i
-                className={`fa-solid ${
-                  showPassword ? "fa-eye-slash" : "fa-eye"
-                } password-icon`}
-                onClick={() => setShowPassword(!showPassword)}
-              ></i>
-            </div>
-
-            {passError && <p className="error">Password is required*</p>}
-            {loginError && (
-              <p className="error">Invalid username or password</p>
-            )}
-
-            <button onClick={handleVerify}>Verify</button>
-
-          </div>
-        </div>
-      </div>
-    </div>
+      <button onClick={handleLogin}>Login</button>
+    </AuthLayout>
   );
 }
 
 export default Login;
-
-
-
-

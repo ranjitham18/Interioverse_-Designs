@@ -1,6 +1,7 @@
+// currently empty/future use
 import "./ProjectPanel.css";
 
-function ProjectPanel({ projects }) {
+function ProjectPanel({ projects= [] }) {
   return (
     <div className="projects-card">
       <h3 className="projects-title">Projects</h3>

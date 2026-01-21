@@ -1,3 +1,4 @@
+// is the entry point that mounts the react application into DOM
 
 import React from "react"; // required to use jsx
 import ReactDOM from "react-dom/client";// connects react app to the browser

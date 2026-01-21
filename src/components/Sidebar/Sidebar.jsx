@@ -1,3 +1,5 @@
+// highlights current page
+// navigation UI only
 import "./Sidebar.css";
 
 function Sidebar({ active = "Users" }) {
@@ -14,6 +16,7 @@ function Sidebar({ active = "Users" }) {
 
       <button className={`sidebar-item ${active === "Dashboard" ? "active" : ""}`}>
         <span className="plus-box">+</span>
+      
         <span>Dashboard</span>
       </button>
 

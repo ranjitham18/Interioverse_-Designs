@@ -31,15 +31,14 @@
 .detail-row {
   display: grid;
   gap: 7%;
-  /* flex-direction: column; */
-  /* align-items: center; */
+  
   padding: 4%;
   font-size: 100 ;
   border-radius: 4%;
-  /* background: #f7fbfd; */
-  /* justify-content: space-between; */
+  
   font-size: 80%;
 }
+
 .detail-row:nth-child(odd) {
   background: #f6fbfc;
 }
@@ -55,16 +54,10 @@
   margin: 0;
   font-weight: 100;
 }
-/* already used by other rows 
-.detail-row {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  align-items: center;
-    min-width: 0;
-}*/
+
 .logo-row {
   display: grid;
-  grid-template-columns: 35% 65%;   /* SAME AS detail-row */
+  grid-template-columns: 35% 65%;   
   align-items: center;
 
   background: #ffffff;
@@ -72,23 +65,16 @@
   padding: 10px 14px;
 }
 
-
-/* logo value cell behaves like other values */
 .logo-value {
   display: flex;
   align-items: center;
 }
 
-/* logo image size */
+
 .logo-value img {
   width: 20px;
   height: auto;
 }
-
-
-
-
-
 
 .delete-user-btn {
   margin: 8% auto 2%;
@@ -146,7 +132,7 @@
   gap: 8%;
   text-align: center;
   justify-content: flex-start;
-  /* justify-content: space-between;  */
+  
 }
 .center-user-name {
   justify-content: center;
@@ -176,23 +162,32 @@
   gap: 5px;
 }
 
-/* each row */
 .detail-row {
   display: grid;
   grid-template-columns: 35% 65%;  
   align-items: center;
-    background: #d9f2f7;              /* box color */
+  background: #d9f2f7;            
   border-radius: 4px;
   padding: 10px 14px;
 }
+/*.detail-row {
+  display: grid;
+   
+  grid-template-columns: minmax(110px, 35%) 1fr;
+  align-items: start;
+  background: #d9f2f7;
+  border-radius: 4px;
+  padding: 10px 14px;
+  gap: 2px;
+}*/
 
-/* label */
+
 .detail-row span {
   font-weight: 500;
   color: #555;
 }
 
-/* value */
+
 .detail-row p,
 .detail-row a {
   margin: 0;
@@ -203,3 +198,5 @@
   overflow-wrap: break-word;
   
 }
+
+

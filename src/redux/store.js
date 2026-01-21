@@ -1,3 +1,6 @@
+// redux store setup
+// combine all silces
+// provides global state
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 

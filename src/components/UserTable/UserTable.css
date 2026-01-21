@@ -16,7 +16,7 @@
   align-items: center;
   width:9%;
   /* height: 15%; */
-  /* border: none; */
+  border: none;
   border-radius: 3%;
   /* padding: 0 2%;  */
 }
@@ -105,7 +105,7 @@
 }
 .id-cell {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   /* justify-content: center; */
   gap:8px;
 }

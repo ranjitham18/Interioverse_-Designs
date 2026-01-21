@@ -1,22 +1,33 @@
+// authentication state manager
+// stores isLoggedIn and role
+// used by protectedRoute
+
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isAuth: localStorage.getItem("isAuth") === "true",
+    isLoggedIn: false,
+    role: null,
+    authChecked: false
   },
   reducers: {
-    login: (state) => {
-      state.isAuth = true;
-      localStorage.setItem("isAuth", "true");
+    setAuth: (state, action) => {
+      state.isLoggedIn = true;
+      state.role = action.payload.role;
+      state.authChecked = true;
     },
     logout: (state) => {
-      state.isAuth = false;
-      localStorage.removeItem("isAuth");
+      state.isLoggedIn = false;
+      state.role = null;
+      state.authChecked = true;
     },
-  },
+    authChecked: (state) => {
+      state.authChecked = true;
+    }
+  }
 });
 
-export const { login, logout } = authSlice.actions;
+export const { setAuth, logout, authChecked } = authSlice.actions;
 export default authSlice.reducer;
-

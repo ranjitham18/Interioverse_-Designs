@@ -1,75 +1,89 @@
-
+// shows full details of selected user
+// name, email, addresss, signup,etc.
 import { useState } from "react";
 import "./UserDetails.css";
 
 function UserDetails({ user, onDelete }) {
   const [showPopup, setShowPopup] = useState(false);
 
+  if (!user) return null;
+
+  //  SAFE NAME (SAME LOGIC AS UserTable)
+  const displayName =
+    user.name || user.username || user.registeredName || "-";
+
   return (
     <>
       <div className="user-details-card">
-        {/*
-        <h2 className="user-name">
-  {user.name}
+        {/* NAME (TOP CENTER) */}
+        <h2
+          className={`user-name ${
+            user.status !== "verified" ? "center-user-name" : ""
+          }`}
+        >
+          {displayName}
 
-  <span
-    className={`status-icon ${
-      user.status === "Verified"
-        ? "verified-icon"
-        : "not-verified-icon"
-    }`}
-  >
-    {user.status === "Verified" ? "✔" : ""}
-  </span>
-</h2>
-*/}
-<h2
-  className={`user-name ${
-    user.status !== "Verified" ? "center-user-name" : ""
-  }`}
->
-  {user.name}
+          {user.status === "verified" && (
+            <span className="status-icon verified-icon">✔</span>
+          )}
+        </h2>
 
-  {user.status === "Verified" && (
-    <span className="status-icon verified-icon">✔</span>
-  )}
-</h2>
+        {/* ROLE */}
+        <span className="role-pill">{capitalize(user.role)}</span>
 
-
-        
-        <span className="role-pill">{user.role}</span>
-
-        
+        {/* DETAILS */}
         <div className="details-list">
-          <div className="detail-row"><span>Profile ID</span><p>{user.id}</p></div>
-          <div className="detail-row"><span>Email ID</span><p>{user.email}</p></div>
-          <div className="detail-row"><span>Phone Number</span><p className="email-value">{user.phone}</p></div>
-          <div className="detail-row"><span>User Type</span><p>{user.role}</p></div>
-          <div className="detail-row"><span>Address</span><p>{user.address}</p></div>
-          <div className="detail-row"><span>Pin Code</span><p>{user.pincode}</p></div>
-          <div className="detail-row"><span>Location</span><p>{user.location}</p></div>
-          <div className="detail-row"><span>Instagram Profile</span><a href="https://www.instagram.com/ranjitha_gowda1218" target="_blank" rel="noreferrer">Instagram</a></div>
-          <div className="detail-row"><span>LinkedIn Profile</span><a href="https://www.linkedin.com/in/ranjitha-m-ece" target="_blank" rel="noreferrer">LinkedIn</a></div>
-          <div className="detail-row"><span>Referral count</span><p>{user.referral}</p></div>
-          <div className="detail-row"><span>Specialization</span><p>{user.specialization}</p></div>
-          <div className="detail-row"><span>Experience</span><p>{user.experience}</p></div>
-          <div className="detail-row"><span>Project Volume</span><p>{user.projectVolume}</p></div>
-          <div className="detail-row"><span>Brand Name</span><p>{user.brand}</p></div>
-          <div className="detail-row"><span>Registered Name</span><p>{user.registeredname}</p></div>
-          <div className="detail-row"><span>Tag Line</span><p>{user.tagline}</p></div>
-      
-          <div className=" detail-row logo-row">
-           <span>Logo</span>
-           <div className="logo-value">
-            <img src="/brand-logo.png" alt="Brand Logo" />
-           </div>
-           </div>
+          <Detail label="Profile ID" value={user.kmId} />
+          <Detail label="Email ID" value={user.email} />
+          <Detail label="Phone Number" value={user.phone} />
+          <Detail label="User Type" value={capitalize(user.role)} />
+          <Detail label="Address" value={user.address} />
+          <Detail label="Pin Code" value={user.pincode} />
+          <Detail label="Location" value={user.location} />
+
+          <Detail
+            label="Instagram Profile"
+            value={
+              user.instagram ? (
+                <a
+                  href={`https://instagram.com/${user.instagram}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Instagram
+                </a>
+              ) : "-"
+            }
+          />
+
+          <Detail
+            label="LinkedIn Profile"
+            value={
+              user.linkedin ? (
+                <a
+                  href={user.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  LinkedIn
+                </a>
+              ) : "-"
+            }
+          />
+
+          <Detail label="Referral" value={user.referral} />
+          <Detail label="Specialization" value={user.specialization} />
+          <Detail label="Experience" value={user.experience} />
+          <Detail label="Project Volume" value={user.projectVolume} />
+          <Detail label="Registered Name" value={user.registeredName} />
+          <Detail label="Tag Line" value={user.tagline} />
+          <Detail label="Signup Date" value={user.signupDate} />
 
 
-          <div className="detail-row"><span>SignUp Date</span><p>{user.signup}</p></div>
-          </div>
 
-        
+        </div>
+
+        {/* DELETE */}
         <button
           className="delete-user-btn"
           onClick={() => setShowPopup(true)}
@@ -78,13 +92,14 @@ function UserDetails({ user, onDelete }) {
         </button>
       </div>
 
-      
+      {/* DELETE POPUP */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
             <h3>Delete User</h3>
             <p>
-              Are you sure you want to delete user <b>{user.id}</b>?
+              Are you sure you want to delete user{" "}
+              <b>{user.name}</b>?
             </p>
 
             <div className="popup-actions">
@@ -98,7 +113,7 @@ function UserDetails({ user, onDelete }) {
               <button
                 className="confirm-btn"
                 onClick={() => {
-                  onDelete(user.id);
+                  onDelete(user.mongoId);
                   setShowPopup(false);
                 }}
               >
@@ -112,7 +127,22 @@ function UserDetails({ user, onDelete }) {
   );
 }
 
+function Detail({ label, value }) {
+  return (
+    <div className="detail-row">
+      <span>{label}</span>
+      <p>{value || "-"}</p>
+    </div>
+  );
+}
+
+function capitalize(text) {
+  return text ? text.charAt(0).toUpperCase() + text.slice(1) : "-";
+}
+
 export default UserDetails;
+
+
 
 
 
