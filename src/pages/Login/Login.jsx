@@ -43,7 +43,7 @@ function Login() {
 
   setErrors(newErrors);
   if (Object.keys(newErrors).length > 0) return;
-
+// setLoading(true);
   try {
     const res = await api.post("/api/auth/login", {
       role: form.role,
@@ -66,9 +66,8 @@ function Login() {
       setLoginError(
         err.response?.data?.message || "Login failed. Check credentials."
       );
-    } finally {
-      setLoading(false);
     }
+    // } finally {setLoading(false);}
 };
 
 
@@ -110,6 +109,7 @@ function Login() {
       {loginError && <p className="error">{loginError}</p>}
 
       <button onClick={handleLogin}>Login</button>
+       
     </AuthLayout>
   );
 }

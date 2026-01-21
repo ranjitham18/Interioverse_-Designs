@@ -30,7 +30,7 @@ function App() {
 }, [dispatch]);
 
   
-    if (!checked) return null;
+  if (!checked) return null;
   return (
     <Routes>
       <Route path="/" element={<Login />} />
